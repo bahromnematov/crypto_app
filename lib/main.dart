@@ -1,7 +1,19 @@
-import 'package:crypto_app/pages/home_page.dart';
+import 'package:crypto_app/auth/instagram_home_page.dart';
+import 'package:crypto_app/auth/sign_in_page.dart';
+import 'package:crypto_app/auth/splash_page.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+      options: FirebaseOptions(
+    apiKey: 'AIzaSyB40MS7yrYOgtA8oBPk4Ve41-l5rf7XU1Q',
+    appId: '1:996828852573:android:99c9d3f715e6f1a3c338b4',
+    messagingSenderId: 'sendid',
+    projectId: 'emo1-f9951',
+    storageBucket: 'demo1-f9951.appspot.com',
+  ));
   runApp(const MyApp());
 }
 
@@ -16,7 +28,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HomePage(),
+      home: SplashPage(),
+      routes: {
+        SignInPage.id: (context) => SignInPage(),
+        InstagramHomePage.id: (context) => InstagramHomePage(),
+      },
     );
   }
 }
