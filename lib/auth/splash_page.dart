@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:crypto_app/auth/instagram_home_page.dart';
+import 'package:crypto_app/main/instagram_home_page.dart';
 import 'package:crypto_app/auth/sign_in_page.dart';
 import 'package:crypto_app/service/auth_service.dart';
 import 'package:flutter/material.dart';

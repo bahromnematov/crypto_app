@@ -1,11 +1,14 @@
-import 'package:crypto_app/auth/instagram_home_page.dart';
+import 'package:crypto_app/main/instagram_home_page.dart';
 import 'package:crypto_app/auth/sign_in_page.dart';
 import 'package:crypto_app/auth/splash_page.dart';
+import 'package:crypto_app/main/upload_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MyApp()
+  );
   await Firebase.initializeApp(
       options: FirebaseOptions(
     apiKey: 'AIzaSyB40MS7yrYOgtA8oBPk4Ve41-l5rf7XU1Q',
@@ -14,7 +17,7 @@ void main() async {
     projectId: 'emo1-f9951',
     storageBucket: 'demo1-f9951.appspot.com',
   ));
-  runApp(const MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
@@ -32,6 +35,7 @@ class MyApp extends StatelessWidget {
       routes: {
         SignInPage.id: (context) => SignInPage(),
         InstagramHomePage.id: (context) => InstagramHomePage(),
+        UploadPage.id: (context) => UploadPage(),
       },
     );
   }
