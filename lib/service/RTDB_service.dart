@@ -6,7 +6,6 @@ import 'package:firebase_database/firebase_database.dart';
 class RTDBService {
   static final _databse = FirebaseDatabase.instance.ref();
 
-
   static Future<Stream<DatabaseEvent>> addPost(Post post) async {
     _databse.child("post").push().set(post.toJson());
     return _databse.onChildAdded;
@@ -26,6 +25,7 @@ class RTDBService {
       var post = Post(
         name: map['name'],
         caption: map['caption'],
+        img_url: map['img_url']
       );
       items.add(post);
     }

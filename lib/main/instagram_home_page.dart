@@ -1,6 +1,7 @@
 import 'package:crypto_app/main/upload_page.dart';
 import 'package:crypto_app/service/RTDB_service.dart';
 import 'package:crypto_app/service/auth_service.dart';
+import 'package:crypto_app/service/url_service.dart';
 import 'package:flutter/material.dart';
 
 import '../model/post_model.dart';
@@ -56,7 +57,13 @@ class _InstagramHomePageState extends State<InstagramHomePage> {
               icon: Icon(
                 Icons.logout,
                 color: Colors.white,
-              ))
+              )),
+          IconButton(
+              onPressed: () {
+                UrlService.launchInBrauther(
+                    Uri.parse("https://pub.dev/packages/url_launcher/install"));
+              },
+              icon: Icon(Icons.location_pin))
         ],
         title: Text(
           "Firebase",
@@ -70,6 +77,14 @@ class _InstagramHomePageState extends State<InstagramHomePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Container(
+                    height: 120,
+                    child: items[index].img_url != null
+                        ? Image.network(
+                            items[index].img_url!,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.asset("assets/icon/upload.jpg")),
                 Text(
                   items[index].name!,
                   style: TextStyle(color: Colors.black, fontSize: 20),

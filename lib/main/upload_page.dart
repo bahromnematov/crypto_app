@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:crypto_app/service/RTDB_service.dart';
+import 'package:crypto_app/service/storage_service.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../model/post_model.dart';
 
@@ -17,23 +21,43 @@ class _UploadPageState extends State<UploadPage> {
   final nameController = TextEditingController();
   final captionController = TextEditingController();
 
+  File? _image;
+  final picker = ImagePicker();
+
+  Future _getImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print("No image");
+      }
+    });
+  }
+
   _createPost() {
     String name = nameController.text.toString().trim();
     String caption = captionController.text.toString().trim();
 
     if (name.isEmpty || caption.isEmpty) return;
 
-    _apiCretePost(name, caption);
+    _apiUploadImage(name, caption);
   }
 
-  _apiCretePost(String firstName, String content) {
+  _apiUploadImage(String name, String content) {
     setState(() {
       isLoading = true;
     });
-    var post = Post(name: firstName, caption: content);
+    StorageService.uploadImage(_image!).then((img_url) => {
+          _apiCreatePost(name, content, img_url),
+        });
+  }
+
+  _apiCreatePost(String name, String content, String img_url) {
+    var post = Post(name: name, caption: content, img_url: img_url);
     RTDBService.addPost(post).then((value) => {
-      _resAddPost(),
-    });
+          _resAddPost(),
+        });
   }
 
   _resAddPost() {
@@ -58,8 +82,24 @@ class _UploadPageState extends State<UploadPage> {
         child: Stack(
           children: [
             Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                InkWell(
+                  onTap: () {
+                    _getImage();
+                  },
+                  child: Container(
+                      height: 100,
+                      width: 100,
+                      child: _image != null
+                          ? Image.file(
+                              _image!,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.asset("assets/icon/upload.jpg")),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
                 TextField(
                   controller: nameController,
                   decoration: InputDecoration(hintText: "Name"),
