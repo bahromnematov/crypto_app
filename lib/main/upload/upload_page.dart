@@ -5,7 +5,7 @@ import 'package:crypto_app/service/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../model/post_model.dart';
+import '../../model/post_model.dart';
 
 class UploadPage extends StatefulWidget {
   static final String id = "upload_page";
@@ -55,10 +55,11 @@ class _UploadPageState extends State<UploadPage> {
 
   _apiCreatePost(String name, String content, String img_url) {
     var post = Post(name: name, caption: content, img_url: img_url);
-    RTDBService.addPost(post).then((value) => {
+    RTDBService.addTaomlar(post).then((value) => {
           _resAddPost(),
         });
   }
+
 
   _resAddPost() {
     setState(() {
